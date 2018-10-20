@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.ivmiit.dto.WeatherDto;
 import ru.ivmiit.service.WeatherService;
 
-import java.util.Date;
-
 @Controller
 public class WeatherController {
 
@@ -18,11 +16,10 @@ public class WeatherController {
     WeatherService weatherService;
 
     @RequestMapping(value = "/weather", method = RequestMethod.POST)
-    public ResponseEntity<WeatherDto> getWeather(
-            @RequestParam(value = "city") String city,
-            @RequestParam(value = "type") String type,
-            @RequestParam(value = "day") Date day) {
-        WeatherDto weatherDto = weatherService.getWeather(city, type, day);
+    public ResponseEntity<WeatherDto> getWeather(@RequestParam(value = "city") String city,
+                                                 @RequestParam(value = "units") String units,
+                                                 @RequestParam(value = "day") int day) {
+        WeatherDto weatherDto = weatherService.getWeather(city, units, day);
         return ResponseEntity.ok(weatherDto);
     }
 }
