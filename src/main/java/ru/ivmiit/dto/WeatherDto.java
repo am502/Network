@@ -10,5 +10,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class WeatherDto {
-    private int day;
+    private String city;
+    private String date;
+    private double relativeHumidity;
+    private double pressure;
+    private double windSpeed;
+    private String windDirection;
+    private double clouds;
+    private double pop;
+    private double temperature;
+    private String weatherDescription;
 }

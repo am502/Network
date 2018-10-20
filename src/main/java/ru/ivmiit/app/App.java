@@ -1,5 +1,6 @@
 package ru.ivmiit.app;
 
+import com.google.gson.Gson;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -35,6 +36,11 @@ public class App {
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
+    }
+
+    @Bean
+    public Gson gson() {
+        return new Gson();
     }
 
     @RequestMapping("/hw")
