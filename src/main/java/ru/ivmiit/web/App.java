@@ -1,4 +1,4 @@
-package ru.ivmiit.app;
+package ru.ivmiit.web;
 
 import com.google.gson.Gson;
 import org.springframework.boot.SpringApplication;
@@ -28,7 +28,7 @@ public class App {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("ru.ivmiit.controllers"))
+                .apis(RequestHandlerSelectors.basePackage("ru.ivmiit.web.controllers"))
                 .paths(PathSelectors.any())
                 .build();
     }

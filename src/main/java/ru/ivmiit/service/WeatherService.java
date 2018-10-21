@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import ru.ivmiit.dto.WeatherDto;
 import ru.ivmiit.dto.json.DataJsonDto;
 import ru.ivmiit.dto.json.WeatherJsonDto;
+import ru.ivmiit.web.utils.exception.IncorrectDataException;
 
 @Service
 public class WeatherService {
@@ -26,6 +27,10 @@ public class WeatherService {
     Gson gson;
 
     public WeatherDto getWeather(String city, String units, int day) {
+        if (day < 1 || day > 7) {
+            throw new IncorrectDataException("day", "День должен быть в интервале от 1 до 7");
+        }
+
         StringBuilder resource = new StringBuilder()
                 .append(apiUrl).append("daily")
                 .append("?city=").append(city)
@@ -36,11 +41,17 @@ public class WeatherService {
                 .append("&key=").append(apiKey);
 
         ResponseEntity<String> response = restTemplate.getForEntity(resource.toString(), String.class);
+
+        int code = response.getStatusCodeValue();
+        if (code == 204) {
+            throw new IncorrectDataException("city", "Данного города не существует или город не находится в России");
+        }
+
         String json = response.getBody();
 
         WeatherJsonDto weatherJsonDto = gson.fromJson(json, WeatherJsonDto.class);
 
-        DataJsonDto data = weatherJsonDto.getData().get(day);
+        DataJsonDto data = weatherJsonDto.getData().get(day - 1);
 
         WeatherDto weatherDto = WeatherDto.builder()
                 .city(weatherJsonDto.getCity_name())
